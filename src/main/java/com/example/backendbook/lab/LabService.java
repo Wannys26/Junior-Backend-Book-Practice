@@ -26,8 +26,10 @@ public class LabService {
             double connectionWaitMs;
             int value;
             // 풀에서 연결을 빌리며, 여유가 없으면 설정된 시간만큼 기다림
-            // try 블록이 끝나면 연결이 풀로 자동 반환됨
-            try (Connection connection = dataSource.getConnection()) {
+            // 정상 반환 코드를 주석 처리하고, 자동 반환 없이 연결만 빌리는 실험임
+            // try (Connection connection = dataSource.getConnection()) {
+            {
+                Connection connection = dataSource.getConnection();
                 connectionWaitMs = elapsedMs(waitStarted);
                 log.info("2. 커넥션 획득 완료: connectionWaitMs={}", connectionWaitMs);
                 phase = "SQL 실행 및 결과 정리";
@@ -40,11 +42,10 @@ public class LabService {
                     value = result.getInt(1);
                     log.info("3. SELECT 1 실행 완료: value={}", value);
                 }
-                phase = "커넥션 반환";
             }
-            // 서비스 시작부터 연결 반환까지 걸린 시간이며 HTTP 전체 응답 시간은 아님
+            // 이번 실험에서는 연결 반환 없이 여기까지 걸린 시간을 측정함
             double totalMs = elapsedMs(started);
-            log.info("4. 커넥션 반환 완료: totalMs={}", totalMs);
+            log.info("4. 실습용 커넥션 반환 누락: totalMs={}", totalMs);
             return new ConnectionResult(value, connectionWaitMs, totalMs);
         } catch (SQLException exception) {
             // 풀이 고갈되면 SQL 실행 전인 커넥션 획득 단계에서 실패했음을 확인할 수 있음
