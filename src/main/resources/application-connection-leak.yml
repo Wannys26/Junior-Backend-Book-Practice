@@ -1,6 +1,8 @@
 spring:
   datasource:
     hikari:
+      # 전체 연결 수가 최대치를 넘지 않는 범위에서 쉬는 연결 2개를 유지하려는 설정임
+      minimum-idle: 2
       # 연결을 반환하지 않으면 순차 요청 중 세 번째부터 빌릴 연결이 없음
       maximum-pool-size: 2
       # 연결을 빌리지 못한 채 1000ms가 지나면 예외가 발생함
