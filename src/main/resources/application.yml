@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: junior-backend-book-practice
+  datasource:
+    url: ${PRACTICE_DB_URL}
+    username: ${PRACTICE_DB_USERNAME}
+    password: ${PRACTICE_DB_PASSWORD}
+
+server:
+  address: 127.0.0.1
+  port: 8080
