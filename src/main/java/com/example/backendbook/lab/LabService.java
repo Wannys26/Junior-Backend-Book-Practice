@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class LabService {
+    // hikari cp가 관리하는 커넥션 풀에서 db 연결을 빌리는데 사용함
     private final DataSource dataSource;
 
     public ConnectionResult checkConnection() throws SQLException {
+        // 서비스 시작 시간 기록
         long started = System.nanoTime();
         String phase = "커넥션 획득";
         try {
@@ -55,6 +57,7 @@ public class LabService {
         }
     }
 
+    // 시작 시점부터 현재까지의 경과 시간을 밀리초로 계산함
     private double elapsedMs(long started) {
         return (System.nanoTime() - started) / 1_000_000.0;
     }
